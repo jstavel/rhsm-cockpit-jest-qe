@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import * as webdriverio from 'webdriverio';
 const WebSocket = require('ws');
 import * as ini from 'ini';
-import LoginPage from '../page_objects/login.page'; 
+import {LoginPage} from '../page_objects/login.page'; 
 
 const options = {
   desiredCapabilities: {
@@ -54,11 +54,21 @@ function getRHSMContent(ws, rhsm){
   return rhsmContentPromise;
 };
 
-test('Proxy dialog has 01', () => {
+test('Proxy dialog has 01', async () => {
   console.log('proxy dialog first test 01');
-  LoginPage(browser)
+  (new LoginPage(browser))
     .open()
-    .wait();
+    .wait()
+    .login(process.env.COCKPIT_USER_NAME,
+           process.env.COCKPIT_USER_PASSWORD);
+  //browser.debug();
+  // MainPage.wait()
+  //   .subscriptions();
+  // SubscriptionsPage.wait();
+  // UnregisteredStatusElement.wait()
+  //   .registerWithUser(process.env.COCKPIT_SUBSCRIPTION_USER_NAME,
+  //                     process.env.COCKPIT_SUBSCRIPTION_PASSWORD);
+
   // let rhsmConfig;
   // getRHSMContent(ws,rhsm)
   //   .then((x) => {rhsmConfig = x; console.log('01 value is:', rhsmConfig); done()});
